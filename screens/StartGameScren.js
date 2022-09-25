@@ -5,38 +5,42 @@ import colors from "../constants/Colors";
 import Input from "../components/Input";
 import NumberContainer from "../components/NumberContainer";
 
-const StartGameScreen = props => {
-    const [enteredValue, setEnteredValue] = useState('');
+const StartGameScreen = ({onStartGame}) => {
+    const [number, setNumber] = useState('');
     const [confirmed, setConfirmed] = useState(false);
-    const [selectedNumber, setSelectedNumber]= useState('')
+    const [selectedNumber, setSelectedNumber] = useState(0);
 
-    const handlerInputNumber = text => {
-        setEnteredValue(text.replace(/[^0-9]/g), '')
+    const handlerInputNumber = (text) => {
+        setNumber(text.replace(/[^0-9]/g, ''));
 
     }
     const handlerResetInput = () => {
-        setEnteredValue ('')
+        setNumber ('')
         setConfirmed(false)
+        setSelectedNumber(0);
+        Keyboard.dismiss()
+    }
+    const onConfirm = () => {
+        const chosenNumber = parseInt(number, 10);
+        if(isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) return;
+        setConfirmed(true);
+        setSelectedNumber(chosenNumber)
+        setNumber('');
     }
 
-    const handlerConfirmInput = () => {
-        const choseNumber = parseInt (enteredValue)
-        if (choseNumber === NaN || choseNumber <= 0 || choseNumber > 99) return
-        setConfirmed(true)
-        setSelectedNumber( parseInt (enteredValue))
-        setEnteredValue('')
+    const onHandleStartGame = () => {
+        onStartGame(selectedNumber);
     }
-    // const confirmedOutput = confirmed ? <Text>Número elegido {selectedNumber} </Text> : null
-    let confirmedOutput
-    if (confirmed) {
-        confirmedOutput = (
+
+    const comfirmedOutput = () =>  confirmed && (
             <Card style={styles.summaryContainer}>
                 <Text> Tu selección: </Text>
-                <NumberContainer>{selectedNumber} </NumberContainer>
-                <Button title="Empezar a jugar" onPress={() => props.onStartGame(selectedNumber)}/>
+                <NumberContainer>{selectedNumber}</NumberContainer>
+                <Button title="Empezar a jugar" 
+                onPress={onHandleStartGame}/>
             </Card>
         )
-    }
+    
 
     return (
         <TouchableWithoutFeedback onPress={() => { 
@@ -50,9 +54,10 @@ const StartGameScreen = props => {
             <Card style={styles.inputContainer}>
                 <Text>Elija un número</Text>
                 <Input style={styles.input}
-                onChangeText={handlerInputNumber}
-                value={enteredValue}                
+                onChangeText={(text) => handlerInputNumber(text)}
+                value={number}                
                 />
+                
                 <View style={styles.buttonContainer}>
                     <View style={styles.button}>
                     <Button title="Limpiar" 
@@ -61,13 +66,14 @@ const StartGameScreen = props => {
                     </View>
                     <View style={styles.button}>
                     <Button title="Confirmar" 
-                    onPress={handlerConfirmInput} 
-                    color={colors.primary}/>
+                    onPress={onConfirm} 
+                    color={colors.primary}
+                    />
                     </View>
                     
                 </View>
             </Card>
-            {confirmedOutput}
+            {comfirmedOutput()}
         </View>
         </TouchableWithoutFeedback>
     )

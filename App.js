@@ -1,27 +1,40 @@
 
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import Header from './components/Header';
-import StartGameScreen from './pages/StartGameScren';
-import GameScreen from './pages/GameScreen';
+import StartGameScreen from './screens/StartGameScren';
+import GameScreen from './screens/GameScreen';
 import { useFonts } from 'expo-font';
+import colors from "./constants/Colors"
 // import AppLoading from 'expo-app-loading';
 
 export default function App() {
+  
   const [loaded] =useFonts ({
     OpenSans: require('./assets/fonts/static/OpenSans/OpenSans-Regular.ttf'),
     OpenSans: require('./assets/fonts/static/OpenSans/OpenSans-Bold.ttf'),
 
   } );
   // if (!loaded) return <AppLoading />
+  /* if(!loaded) {
+    return (
+      <View style={styles.containerLoader}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    )
+  } */
 
-  const [userNumber, setUserNumber] = useState ()
-  const handlerStartGame = selectedNumber => {
-    setUserNumber(selectedNumber)
+  const [userNumber, setUserNumber] = useState(0);
+  const  title = !userNumber ? 'Adivina un numero' : 'Comienza el juego';
+
+  const onStartGame = (selectedNumber) => {
+    setUserNumber(selectedNumber);
   }
-  let content = <StartGameScreen onStartGame={handlerStartGame}/>
-  if (userNumber){
-    content = <GameScreen />
+
+  let content = <StartGameScreen onStartGame={onStartGame} />
+
+  if(userNumber) {
+    content = <GameScreen selectedNumber={userNumber} />
   }
 
   return (
