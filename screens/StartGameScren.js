@@ -55,7 +55,12 @@ const StartGameScreen = ({onStartGame}) => {
                 <Text>Elija un número</Text>
                 <Input style={styles.input}
                 onChangeText={(text) => handlerInputNumber(text)}
-                value={number}                
+                value={number}
+                blurOnsubmit
+                autoCapitalization="none"
+                autoCorrect={false}
+                keyboardType="numeric"
+                maxLength={2}                
                 />
                 
                 <View style={styles.buttonContainer}>

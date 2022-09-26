@@ -1,16 +1,7 @@
 import React from "react";
 import { TextInput, StyleSheet } from "react-native";
 
-const Input= props => (
-    <TextInput style={{...styles.input, ...props.style}} 
-    blurOnsubmit
-    autoCapitalization="none"
-    autoCorrect={false}
-    keyboardType="numeric"
-    maxLength={2}
-    
-    />
-)
+
 
 const styles = StyleSheet.create({
     input: {
@@ -21,4 +12,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Input
+const Input = ({ style, ...props }) => {
+    return (
+        <TextInput {...props} style={{ ...styles.input, ...style }} />
+    )
+}
+
+export default Input;
