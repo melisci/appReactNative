@@ -1,10 +1,13 @@
 import React from "react";
-import {View, Text, StyleSheet} from "react-native"
+import { useState } from "react";
+import {View, Text, StyleSheet, Button} from "react-native"
 import {generateRandomNumberBetween} from "../utils/functions"
+import NumberContainer from "../components/NumberContainer";
+import Card from "../components/Card";
 const GameScreen = ({ selectedNumber })  => {
     
     const [currentGuess, setCurrentGuess] = useState(generateRandomNumberBetween(1, 100, selectedNumber));
-    render (
+    return (
         <View style={styles.screen}>
             <Text>La suposición del oponente</Text>
             <NumberContainer>{currentGuess} </NumberContainer>
