@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, StyleSheet, Button, Keyboard, TouchableWithoutFeedback} from "react-native"
+import {View, Text, StyleSheet, Button, Keyboard, TouchableWithoutFeedback, ScrollView, Dimensions} from "react-native"
 import Card from "../components/Card";
 import colors from "../constants/Colors";
 import Input from "../components/Input";
@@ -46,40 +46,41 @@ const StartGameScreen = ({onStartGame}) => {
         <TouchableWithoutFeedback onPress={() => { 
             Keyboard.dismiss()
         }}>
+        <ScrollView style={styles.scrollView}>
+            <View style={styles.screen}>
             
-        
-        <View style={styles.screen}>
-        
-            <Text style={styles.title}>Comenzar el juego</Text>
-            <Card style={styles.inputContainer}>
-                <Text>Elija un número</Text>
-                <Input style={styles.input}
-                onChangeText={(text) => handlerInputNumber(text)}
-                value={number}
-                blurOnsubmit
-                autoCapitalization="none"
-                autoCorrect={false}
-                keyboardType="numeric"
-                maxLength={2}                
-                />
-                
-                <View style={styles.buttonContainer}>
-                    <View style={styles.button}>
-                    <Button title="Limpiar" 
-                    onPress={handlerResetInput} 
-                    color={colors.accent}/>
-                    </View>
-                    <View style={styles.button}>
-                    <Button title="Confirmar" 
-                    onPress={onConfirm} 
-                    color={colors.primary}
-                    />
-                    </View>
-                    
-                </View>
-            </Card>
-            {comfirmedOutput()}
-        </View>
+                <Text style={styles.title}>Comenzar el juego</Text>
+                    <Card style={styles.inputContainer}>
+                        <Text>Elija un número</Text>
+                        <Input style={styles.input}
+                        onChangeText={(text) => handlerInputNumber(text)}
+                        value={number}
+                        blurOnsubmit
+                        autoCapitalization="none"
+                        autoCorrect={false}
+                        keyboardType="numeric"
+                        maxLength={2}                
+                        />
+                        
+                        <View style={styles.buttonContainer}>
+                            <View style={styles.button}>
+                                <Button title="Limpiar" 
+                                onPress={handlerResetInput} 
+                                color={colors.accent}
+                                />
+                            </View>
+                            <View style={styles.button}>
+                                <Button title="Confirmar" 
+                                onPress={onConfirm} 
+                                color={colors.primary}
+                                />
+                            </View>
+                            
+                        </View>
+                    </Card>
+                {comfirmedOutput()}
+            </View>
+        </ScrollView>
         </TouchableWithoutFeedback>
     )
 }
@@ -90,8 +91,11 @@ const styles = StyleSheet.create({
         padding: 10, 
         alignItems: "center",
     },
+    scrollView:{
+        flex:1,
+    },
     button:{
-        width:100,
+        width: Dimensions.get('window').width /4,
     },
     title: {
         fontSize:20,
@@ -106,9 +110,12 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: "row",
-        width: "100%",
+        width: 400,
+        maxWidth: "90%",
+        padding: 10,
+        marginTop: Dimensions.get('window').height > 600 ? 20: 10,
         justifyContent: "space-between",
-        paddingHorizontal: 15,
+        paddingHorizontal: 1,
     },
     summaryContainer: {
         padding:25,
