@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, StyleSheet, Button, Keyboard, TouchableWithoutFeedback, ScrollView, Dimensions} from "react-native"
+import {View, Text, StyleSheet, Button, Keyboard, TouchableWithoutFeedback, ScrollView, Dimensions , KeyboardAvoidingView, Platform} from "react-native"
 import Card from "../components/Card";
 import colors from "../constants/Colors";
 import Input from "../components/Input";
@@ -43,6 +43,7 @@ const StartGameScreen = ({onStartGame}) => {
     
 
     return (
+        <KeyboardAvoidingView contentContainerStyle={styles.containerScroll} style={styles.containerScroll} behavior={Platform.OS === 'android' ? 'padding' : 'position'} keyboardVerticalOffset={30}>
         <TouchableWithoutFeedback onPress={() => { 
             Keyboard.dismiss()
         }}>
@@ -82,6 +83,7 @@ const StartGameScreen = ({onStartGame}) => {
             </View>
         </ScrollView>
         </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     )
 }
 

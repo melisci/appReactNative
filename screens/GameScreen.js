@@ -39,6 +39,12 @@ const GameScreen = ({ selectedNumber, onGameOver })  => {
         setCurrentGuess(nextNumber)
         setRounds(current => current + 1)
     }
+    useEffect(() => {
+        if(currentGuess === selectedNumber) {
+            onGameOver(rounds);
+        }
+    }, [currentGuess, selectedNumber, onGameOver]);
+
     
     
     return (

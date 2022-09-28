@@ -5,7 +5,7 @@ import Header from './components/Header';
 import StartGameScreen from './screens/StartGameScren';
 import GameScreen from './screens/GameScreen';
 import { useFonts } from 'expo-font';
-import colors from "./constants/Colors"
+import GameOverScreen from './screens/GameOverScreen';
 // import AppLoading from 'expo-app-loading';
 
 export default function App() {
@@ -25,17 +25,33 @@ export default function App() {
   } */
 
   const [userNumber, setUserNumber] = useState(0);
+  const [rounds, setRounds] = useState(0);
   const  title = !userNumber ? 'Adivina un numero' : 'Comienza el juego';
 
   const onStartGame = (selectedNumber) => {
     setUserNumber(selectedNumber);
+    setGuessRounds(0)
   }
 
   let content = <StartGameScreen onStartGame={onStartGame} />
-
-  if(userNumber) {
-    content = <GameScreen selectedNumber={userNumber} />
+  
+  if(userNumber && rounds <= 0) {
+    content = <GameScreen selectedNumber={userNumber} onGameOver={onGameOver} />
+  } else if(rounds > 0) {
+    content = <GameOverScreen roundsNumber={rounds} userNumber={userNumber} onRestart={onRestartGame} />
   }
+
+
+  const onGameOver = (roundsNumber) => {
+    setRounds(roundsNumber);
+  }
+
+  const onRestartGame = () => {
+    setUserNumber(0);
+    setRounds(0);
+  }
+
+  
 
   return (
     <View style={styles.container}>
